@@ -2,7 +2,7 @@ const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 10000;
 
 // Paste your actual values directly inside the quotes below:
 const supabaseUrl = 'https://wqixrjcoeuaafozeukcw.supabase.co/';
