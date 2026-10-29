@@ -4,13 +4,19 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const port = process.env.PORT || 10000;
 
-// Paste your actual values directly inside the quotes below:
+// Paste your actual credentials inside quotes below:
 const supabaseUrl = 'https://wqixrjcoeuaafozeukcw.supabase.co/';
 const supabaseKey = 'sb_publishable_kwsA6oBUc1u3F7nBldxRdQ_XbrTg4Oa';
 const base44Url = 'https://weightless-pulse-rate-go.base44.app';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Root route to test if server is alive
+app.get('/', (req, res) => {
+  res.send('QR Redirector Server is Live and Working!');
+});
+
+// Dynamic redirect route
 app.get('/r/:stand_slug', async (req, res) => {
   try {
     const { stand_slug } = req.params;
@@ -22,9 +28,6 @@ app.get('/r/:stand_slug', async (req, res) => {
       .single();
 
     if (error || !stand) {
-      console.log('Lookup slug:', stand_slug);
-      console.log('Supabase Error:', error);
-      console.log('Stand data:', stand);
       return res.status(404).send(`<h1>Stand Not Found in Supabase</h1><p>${error ? error.message : 'No matching slug found'}</p>`);
     }
 
@@ -42,5 +45,5 @@ app.get('/r/:stand_slug', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });
